@@ -1,0 +1,21 @@
+New user visits the web : asign userid, field type : guest, add state to the user "segment" : unclassified,
+"segmentupdatedat" : time, "lastactivity" : time, "lastclassifiedat" : date, "eventcounter" : int
+
+On each meaningful action (search, product view, add-to-cart), emit an event.
+A small “features” service updates counters/last activity for that user.
+trigger an event when user goes above X on "eventcounter", and "lastclassifiedat" above Y hours or something then
+emit user.ready_for_classification. -rabbitmq
+
+this could also work for all the users in the database, perhaps check the "lastclassifiedat" compare to "lastactivity"
+and check "eventcount", (note when user gets classified eventcount will reset), then send him for reclassification. -rabbitmq
+
+adding new item : item will be added but not listed on the site until it gets categoryclassified. item only gets classified
+once added or updated. once classified it will show up on the site. -rabbitmq
+
+updating item : reclassification. -rabbitmq
+
+deleting item : delete from the database or delist. -rabbitmq
+
+
+
+

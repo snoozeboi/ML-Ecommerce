@@ -1,0 +1,92 @@
+product atts:
+
+id - uuid
+name - string - product title
+description - string - detailed description
+category - string - filtering/recomm
+price - decimal - cost
+quantity - integer - units avail.
+image url - string - image path/url
+create_at - datetime - time added
+updated_at - datetime - last modified
+views - integer - how many views
+tags - list[string] - keywords for search/recomm
+
+
+_____________________________________________________________________
+
+user atts:
+id - uuid
+username - string - login/display user
+email - string - for auth
+password_hash - string - hashed pw
+created_at - datetime - signup date
+is_guest - boolean - true if guest
+search_history - list[string] - list of keywords or product categories
+purchase_history - list[productid] - list of purchased products
+wishlist - list[productid] - list of wished products
+cart - list[cartitem] - items in currect shopping cart
+
+
+_____________________________________________________________________
+
+
+Where should ML live?
+Option A — Standalone service in Docker (recommended)
+Pros: separate deps (often Python), scale independently, crash isolation, can use GPU, safer perms (read-only DB).
+
+Cons: one extra container.
+
+Pattern:
+
+Backend writes Postgres → publishes event.
+
+ML worker consumes events → computes scores → writes derived results to a table/index (e.g., user_recommendations or ES recommendations-*).
+
+Backend serves /recommendations by reading those results. Fast + reliable.
+
+Option B — Inside the backend
+Pros: simplest to start, no extra infra.
+
+Cons: tight coupling, harder scaling, backend inherits ML deps.
+
+Good for a first stub, later extract to A.
+
+When to call ML synchronously?
+Only if you truly need fresh, per-request predictions (e.g., “you may also like” computed live).
+
+Backend makes an HTTP call to ML with a short timeout + fallback to cached/precomputed results.
+
+Most shops precompute and serve from a table/cache for speed.
+
+Suggested path for your project (keep it easy)
+Keep ML as a separate worker container (Docker).
+
+Backend → Postgres (write), then publish events to RabbitMQ.
+
+ML consumes → writes to user_recommendations(user_id, product_id, score, updated_at).
+
+Backend exposes GET /recommendations by reading that table.
+
+No frontend → RabbitMQ, ever.
+
+________________________________________________________________________________________
+
+Whats hot/Popular purchases block :
+
+1. Backend will periodically (every 20-30 seconds) call a method to sort elastic database by purchase count
+    and return the top X items by purchase count.
+3. Save that top X to cache on backend
+4. Whenever a user accesses the frontend UI, Load Popular purchases from cache.
+
+
+Side notes :
+Setup a TTL for that cache
+*If Elastic is down, sort in postgres
+Whenever a user purchases an item, In postgres update the quantity, Increase purchase count, Push purchase count
+or score to elastic.
+
+________________________________________________________________________________________
+
+
+

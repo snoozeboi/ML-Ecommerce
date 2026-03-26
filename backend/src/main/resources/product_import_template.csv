@@ -1,0 +1,4 @@
+product_name,description,category,sub_category,brand,price,quantity,image_url,views,rating,tags
+"Sample Product 1","This is a sample product description","Electronics","Smartphones","BrandA",99.99,50,"https://example.com/image1.jpg",0,4.5,"electronics,smartphone,new"
+"Sample Product 2","Another sample product","Fashion","Clothing","BrandB",49.99,100,"https://example.com/image2.jpg",0,4.0,"fashion,clothing,popular"
+"Sample Product 3","Third sample product","Home & Kitchen","Appliances","BrandC",199.99,25,"https://example.com/image3.jpg",0,4.8,"home,appliance,premium"

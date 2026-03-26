@@ -1,0 +1,227 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Playfair+Display:wght@500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* E-commerce color palette – slightly warmer, softer */
+    --background: 220 18% 97%;
+    --foreground: 222 40% 12%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 40% 12%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 40% 12%;
+
+    /* Deep slate primary */
+    --primary: 222 44% 14%;
+    --primary-foreground: 210 40% 98%;
+
+    /* Soft gray secondary */
+    --secondary: 220 18% 94%;
+    --secondary-foreground: 222 40% 12%;
+
+    --muted: 220 16% 92%;
+    --muted-foreground: 218 14% 45%;
+
+    /* Coral accent for CTAs */
+    --accent: 18 92% 52%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 220 20% 90%;
+    --input: 220 20% 90%;
+    --ring: 18 92% 52%;
+
+    --radius: 0.875rem;
+
+    /* E-commerce specific tokens */
+    --sale: 0 84% 60%;
+    --success: 142 71% 45%;
+    --warning: 38 92% 50%;
+    --info: 199 89% 48%;
+
+    /* Ad banner gradients */
+    --gradient-ad-1: linear-gradient(135deg, hsl(222 47% 11%) 0%, hsl(222 47% 20%) 100%);
+    --gradient-ad-2: linear-gradient(135deg, hsl(16 90% 55%) 0%, hsl(25 95% 53%) 100%);
+    --gradient-banner: linear-gradient(135deg, hsl(222 47% 11%) 0%, hsl(16 90% 55%) 100%);
+
+    /* Shadows – softer, slightly larger blur */
+    --shadow-sm: 0 1px 3px 0 hsl(222 40% 12% / 0.06), 0 1px 2px -1px hsl(222 40% 12% / 0.06);
+    --shadow-md: 0 4px 12px -2px hsl(222 40% 12% / 0.08), 0 2px 6px -2px hsl(222 40% 12% / 0.06);
+    --shadow-lg: 0 12px 24px -4px hsl(222 40% 12% / 0.1), 0 4px 8px -4px hsl(222 40% 12% / 0.06);
+    --shadow-xl: 0 24px 40px -8px hsl(222 40% 12% / 0.12), 0 8px 16px -6px hsl(222 40% 12% / 0.08);
+    --shadow-glow: 0 0 24px hsl(18 92% 52% / 0.25);
+
+    /* Sidebar tokens */
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 16 90% 55%;
+  }
+
+  .dark {
+    --background: 222 47% 6%;
+    --foreground: 210 40% 98%;
+
+    --card: 222 47% 8%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222 47% 8%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 222 47% 11%;
+
+    --secondary: 222 47% 15%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 222 47% 15%;
+    --muted-foreground: 215 20% 65%;
+
+    --accent: 16 90% 55%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 222 47% 18%;
+    --input: 222 47% 18%;
+    --ring: 16 90% 55%;
+
+    --sidebar-background: 222 47% 8%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 16 90% 55%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 222 47% 15%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 222 47% 15%;
+    --sidebar-ring: 16 90% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    background-image: radial-gradient(ellipse 120% 80% at 50% -20%, hsl(var(--accent) / 0.06), transparent),
+                      radial-gradient(ellipse 80% 50% at 100% 50%, hsl(var(--primary) / 0.03), transparent);
+  }
+
+  h1, h2, h3 {
+    @apply font-display;
+  }
+}
+
+@layer components {
+  /* Product card hover effect */
+  .product-card {
+    @apply transition-all duration-300 ease-out;
+    box-shadow: var(--shadow-sm);
+  }
+  
+  .product-card:hover {
+    @apply -translate-y-1;
+    box-shadow: var(--shadow-lg);
+  }
+
+  /* Carousel container */
+  .carousel-container {
+    @apply relative overflow-hidden rounded-2xl bg-secondary/50 p-6 shadow-sm border border-border/60;
+  }
+
+  /* Ad banner styling */
+  .ad-banner {
+    @apply rounded-xl overflow-hidden transition-transform duration-300;
+  }
+  
+  .ad-banner:hover {
+    @apply scale-[1.01];
+  }
+
+  /* Filter section */
+  .filter-section {
+    @apply bg-card rounded-xl p-4 shadow-sm border border-border;
+  }
+
+  /* Section title */
+  .section-title {
+    @apply text-2xl font-display font-semibold text-accent mb-4;
+  }
+
+  /* Carousel arrow buttons */
+  .carousel-arrow {
+    @apply absolute top-1/2 -translate-y-1/2 z-10 w-11 h-11 rounded-full flex items-center justify-center transition-all duration-200;
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    box-shadow: var(--shadow-md);
+  }
+
+  .carousel-arrow:hover {
+    background: hsl(var(--accent));
+    color: hsl(var(--accent-foreground));
+    transform: translateY(-50%) scale(1.08);
+    box-shadow: var(--shadow-lg);
+    border-color: transparent;
+  }
+
+  .carousel-arrow.left {
+    left: 16px;
+  }
+
+  .carousel-arrow.right {
+    right: 16px;
+  }
+}
+
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .text-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: var(--gradient-banner);
+  }
+
+  /* Brighter scrollbar for top categories bar on Categories page */
+  .category-scroll {
+    scrollbar-color: hsl(var(--muted-foreground)) hsl(var(--muted));
+    scrollbar-width: thin;
+  }
+
+  .category-scroll::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  .category-scroll::-webkit-scrollbar-track {
+    background: hsl(var(--muted));
+    border-radius: 9999px;
+  }
+
+  .category-scroll::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted-foreground) / 0.8);
+    border-radius: 9999px;
+  }
+
+  .category-scroll::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--accent));
+  }
+}

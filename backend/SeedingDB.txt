@@ -1,0 +1,14 @@
+How to seed the DB :
+
+1. Restart docker compose on backend "docker compose up -d", then "docker compose down -v". -v option will clear the volumes that are currently saved inside docker folder.
+
+*Skip step 2,3 if you have the current version*
+
+2. Place products.csv and users.csv inside "backend -> src -> main -> resources -> seed"
+3. Place ProductSeedRunner.java and UserSeedRunner.java inside "backend -> src -> main -> java -> com.shop.ecommerce -> seeder"
+
+4. In IntelliJ on top go to Run -> Edit Configuration -> Press on + -> Add new Application -> Name : seed, Main class : EcommerceApplication, -> Press Alt+V and type -Dspring.profiles.active=seed,init-ratings -> Press Apply
+5. Run docker compose, wait 10 seconds then on top right of IntelliJ it says "Current File" or "seed", run the seed version. 
+*note, you only have to run it once so the seeder populates the DB, If youre turning off docker compose dont add -v at the end*
+
+*If you already have products in the DB:* The product seeder now runs only when the products table is empty. To re-seed from scratch, clear the DB first (e.g. "docker compose down -v" then "docker compose up -d") and run the seed again.

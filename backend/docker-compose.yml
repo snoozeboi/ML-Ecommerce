@@ -1,0 +1,104 @@
+version: '3.8'
+
+services:
+
+
+#  backend:
+#    build: .
+#    container_name: backend
+#    ports:
+#      - "8080:8080"
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/ecommerce_db
+#      SPRING_DATASOURCE_USERNAME: admin
+#      SPRING_DATASOURCE_PASSWORD: admin123
+#      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+#
+#      SPRING_RABBITMQ_HOST: rabbitmq
+#      SPRING_RABBITMQ_PORT: 5672
+#      SPRING_RABBITMQ_USERNAME: admin
+#      SPRING_RABBITMQ_PASSWORD: admin123
+#
+#      SPRING_ELASTICSEARCH_URIS: http://elasticsearch:9200
+#    depends_on:
+#      - postgres
+#      - rabbitmq
+#      - elasticsearch
+
+
+  postgres:
+    image: postgres:16
+    container_name: postgres
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: ecommerce_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"    # AMQP protocol
+      - "15672:15672"  # Management UI
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin123
+#    volumes:
+#      - rabbit_data:/var/lib/rabbitmq
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.14.3
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    ports:
+      - "9200:9200"
+    volumes:
+      - es_data:/usr/share/elasticsearch/data
+
+  # ML Service (Flask): fast product categorization - model loaded once in memory
+  ml_service:
+    image: python:3.11-slim
+    container_name: ml_service
+    working_dir: /app
+    volumes:
+      - ..:/app
+    command: >
+      bash -c "pip install --quiet flask flask-cors pandas numpy scikit-learn xgboost
+      && python backend/ml_service/app.py"
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_ENV=production
+
+volumes:
+  postgres_data:
+  es_data:
+#  rabbit_data:
+
+
+
+
+
+
+
+
+
+

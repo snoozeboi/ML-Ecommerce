@@ -1,0 +1,20 @@
+1. ML recieves CSV file as an object and sends back CSV file as an object
+
+2. When project boots up, ML queries the Postgresql DB for all existing users and classifies them, whenever a new user joins and surfs the site, the user gets event
+counter++ each time he visits or searches a product, whenever the event counter reaches X, backend sends a single user (CSV) for classification,
+ML classifies and sends back to backend.
+
+frontend - recommendation GET recommendations?user_id=${userId}
+
+frontend (frontpage) - recommended gets a list of recommended items for specific user (40 items)
+frontend (frontpage) - popular purchases gets a list of popular purchases (the backend will do it) which are 40 items with the most views (top40)
+*added rating into the product model (backend has to send the model with rating to the frontend as well)
+
+frontend (frontpage filtering) - the frontend sends a GET to get the items with the following filters (pricerange,category,instock only)
+categories page should also get the most expensive item in order to know whats the ceiling of the "byprice" filter
+
+
+
+
+
+
